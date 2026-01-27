@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: Btn.PlaySequence
     m_Metadata:
       m_Items: []
+  - m_Id: 290566324654080
+    m_Key: Card.Dash.Name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -1,16 +1,25 @@
+using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelHandler : MonoBehaviour
 {
-    public static LevelHandler Instance { get; private set; }
-
     [SerializeField] LevelGenerator levelGenerator;
     [SerializeField] CameraManager cameraManager;
     [SerializeField] Player playerPrefab;
 
     Player player;
-    OngoingLevelData currentOngoingLevelData;
+    OngoingLevelData ongoingLevelData;
+    CardSelectionService cardSelectionService;
+
+    public static LevelHandler Instance { get; private set; }
+
+    public UnityEvent OnNewCardSelected;
+
+    public UnityEvent<LevelData, CardSelectionService> OnLevelStarted;
+
+    public OngoingLevelData OngoingLevelData => ongoingLevelData;
 
     private void Awake()
     {
@@ -24,16 +33,40 @@ public class LevelHandler : MonoBehaviour
         Instance = this;
     }
 
-    public void StartLevel(LevelData data)
+    public async void StartLevel(LevelData data)
     {
+        //Delaying a few frames to make sure everything is properly initialized
+        await UniTask.DelayFrame(3);
+
         ClearLevel();
 
-        currentOngoingLevelData = levelGenerator.GenerateLevel(data);
+        ongoingLevelData = levelGenerator.GenerateLevel(data);
 
-        cameraManager.SetCameraPosition(currentOngoingLevelData.Tiles);
+        cameraManager.SetCameraPosition(ongoingLevelData.Tiles);
 
         player = Instantiate(playerPrefab);
-        player.transform.position = currentOngoingLevelData.GetTileWorldCoordinate(currentOngoingLevelData.LevelData.PlayerStartPos);
+        player.transform.position = ongoingLevelData.GetTileWorldCoordinate(ongoingLevelData.LevelData.PlayerStartPos);
+
+
+        cardSelectionService = new CardSelectionService();
+
+        cardSelectionService.OnCardSelected.AddListener(SelectCard);
+        cardSelectionService.OnCardDeselected.AddListener(DeselectCard);
+
+        OnLevelStarted?.Invoke(data, cardSelectionService);
+        OnNewCardSelected?.Invoke();
+    }
+
+    public void SelectCard(CardDispenser _, CardData selectedCard)
+    {
+        ongoingLevelData.SelectedCard = selectedCard;
+        OnNewCardSelected?.Invoke();
+    }
+
+    public void DeselectCard(CardDispenser _)
+    {
+        ongoingLevelData.SelectedCard = null;
+        OnNewCardSelected?.Invoke();
     }
 
     void ClearLevel()

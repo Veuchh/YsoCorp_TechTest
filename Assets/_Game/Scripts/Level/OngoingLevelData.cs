@@ -6,6 +6,9 @@ public class OngoingLevelData
     public LevelData LevelData;
     public Tile[,] Tiles;
     public Vector2Int CurrentPlayerPreviewPosition;
+    public CardData SelectedCard;
+    public Tile CurrentlyHoveredTile;
+    public bool IsHighlightDirty = false;
 
     public OngoingLevelData(LevelData levelData, Tile[,] tiles, Vector2Int playerPosition)
     {
@@ -13,6 +16,7 @@ public class OngoingLevelData
         CurrentPlayerPreviewPosition = playerPosition;
         LevelData = levelData;
     }
+
 
     public Vector3 GetTileWorldCoordinate(Vector2Int tileCoord)
     {

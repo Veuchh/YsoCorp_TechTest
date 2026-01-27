@@ -84,6 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8691045466226653677}
+  - component: {fileID: 8571446004837897017}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -110,8 +111,34 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: -225.4913, y: 130}
+  m_SizeDelta: {x: -80, y: 130}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &8571446004837897017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119489294793122312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 50
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &5000562639942067968
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +346,7 @@ GameObject:
   - component: {fileID: 1432185459279453550}
   - component: {fileID: 3971241929229595909}
   - component: {fileID: 7964518209431676942}
+  - component: {fileID: 3768374273994973563}
   m_Layer: 5
   m_Name: GameCanvas
   m_TagString: Untagged
@@ -409,6 +437,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3768374273994973563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7349618784646190361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4683eac4901c76842ae57b2ac941871c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameCanvas
+  cardDispenserPrefab: {fileID: 6358525526473599307, guid: dfbd05238ec2cde49adb28cf54a35081, type: 3}
+  cardDispensersParent: {fileID: 3528387871908843716}
 --- !u!1 &7717430245171656831
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMin.x
@@ -476,6 +518,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
@@ -566,18 +612,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3577491206499442724, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
@@ -634,7 +684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5027766397872200608, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_fontSize
-      value: 57.3
+      value: 70.75
       objectReference: {fileID: 0}
     - target: {fileID: 5994908573820422048, guid: 984fc307f8ac4194bb9a70def673a399, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
