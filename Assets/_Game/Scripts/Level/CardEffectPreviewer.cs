@@ -36,7 +36,7 @@ public class CardEffectPreviewer : MonoBehaviour
     {
         Tile[,] tiles = LevelHandler.Instance.OngoingLevelData.Tiles;
 
-        if (LevelHandler.Instance.OngoingLevelData.SelectedCard == null)
+        if (LevelHandler.Instance.OngoingLevelData.CurrentlySelectedCard == null)
         {
             RemoveAllHighlight(tiles);
         }
@@ -61,44 +61,41 @@ public class CardEffectPreviewer : MonoBehaviour
 
     private void HighlightBasedOnCard(Tile[,] tiles)
     {
-        CardData selectedCard = LevelHandler.Instance.OngoingLevelData.SelectedCard;
+        CardData selectedCard = LevelHandler.Instance.OngoingLevelData.CurrentlySelectedCard;
 
-        CardEffect choseMovementCardEffect = selectedCard.GetEffectByType(CardEffectType.ChoseMovePosition);
-
-        for (int x = 0; x < LevelHandler.Instance.OngoingLevelData.LevelData.GridSize.x; x++)
+        for (int x = 0; x < tiles.GetLength(0); x++)
         {
-            for (int y = 0; y < LevelHandler.Instance.OngoingLevelData.LevelData.GridSize.y; y++)
+            for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                if (choseMovementCardEffect != null)
-                {
-                    Vector2Int range = choseMovementCardEffect.ChoseMoveRange;
-                    Vector2Int playerPosition = LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition;
-                    int positionDifference = Mathf.Abs(playerPosition.x - x) + Mathf.Abs(playerPosition.y - y);
+                TileValidity tileValdity = CardValidityCheck.CheckTileValidityForCard(tiles[x, y], selectedCard);
 
-                    if (positionDifference >= range.x
-                        && positionDifference <= range.y
-                        && positionDifference != 0)
-                    {
-                        if (LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile == tiles[x, y])
-                        {
-                            tiles[x, y].SetTexture(hoveredTileTexture);
-                        }
-                        else
-                        {
-                            tiles[x, y].SetTexture(movableTileTexture);
-                        }
-                    }
-                }
-                //TODO : set to unwalkable if enemy will be there next turn
-                else if (false)
-                {
+                HighlightTileBasedOnValidity(tiles[x, y], tileValdity);
+            }
+        }
+    }
 
+    private void HighlightTileBasedOnValidity(Tile tile, TileValidity validity) 
+    {
+        switch (validity)
+        {
+            case TileValidity.Neutral:
+                tile.SetTexture(neutralTileTexture);
+                break;
+
+            case TileValidity.Valid:
+                if (LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile == tile)
+                {
+                    tile.SetTexture(hoveredTileTexture);
                 }
                 else
                 {
-                    tiles[x, y].SetTexture(neutralTileTexture);
+                    tile.SetTexture(movableTileTexture);
                 }
-            }
+                break;
+
+            case TileValidity.Invalid:
+                tile.SetTexture(unmovableTileTexture);
+                break;
         }
     }
 }

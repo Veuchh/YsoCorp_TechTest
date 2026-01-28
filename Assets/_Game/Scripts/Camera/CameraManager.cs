@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -11,9 +10,21 @@ public class CameraManager : MonoBehaviour
 
     Camera cam;
 
-    private void Awake()
+    private async void Awake()
     {
-        cam = GetComponent<Camera>();
+        cam = GetComponent<Camera>(); 
+        
+        while (LevelHandler.Instance == null)
+        {
+            await UniTask.NextFrame();
+        }
+
+        LevelHandler.Instance.OnGridGenerated.AddListener(OnGridGenerated);
+    }
+
+    void OnGridGenerated()
+    {
+        SetCameraPosition(LevelHandler.Instance.OngoingLevelData.Tiles);
     }
 
     public async void SetCameraPosition(Tile[,] tiles)

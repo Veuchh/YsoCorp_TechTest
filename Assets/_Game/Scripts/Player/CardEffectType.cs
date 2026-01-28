@@ -1,6 +1,6 @@
 public enum CardEffectType
 {
     None=0,
-    ChoseMovePosition=1,
-
+    MoveToClickedTile=1,
+    AttackClickedTile=2,
 }

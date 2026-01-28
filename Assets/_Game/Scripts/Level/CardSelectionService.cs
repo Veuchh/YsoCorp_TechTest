@@ -8,6 +8,7 @@ public class CardSelectionService
 
     public UnityEvent<CardDispenser, CardData> OnCardSelected = new UnityEvent<CardDispenser, CardData>();
     public UnityEvent<CardDispenser> OnCardDeselected = new UnityEvent<CardDispenser>();
+    public UnityEvent<CardDispenser> OnSelectedCardPlayed = new UnityEvent<CardDispenser>();
 
     public void Select(CardDispenser dispenser, CardData card)
     {
@@ -34,5 +35,10 @@ public class CardSelectionService
 
         SelectedDispenser = null;
         SelectedCard = null;
+    }
+
+    public void PlaySelectedCard()
+    {
+        OnSelectedCardPlayed?.Invoke(SelectedDispenser);
     }
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
 
 public class CardDispenser : MonoBehaviour
@@ -21,6 +19,7 @@ public class CardDispenser : MonoBehaviour
 
         selectionService.OnCardSelected.AddListener(HandleCardSelected);
         selectionService.OnCardDeselected.AddListener(HandleCardDeselected);
+        selectionService.OnSelectedCardPlayed.AddListener(TryPlayCard);
 
         DrawCard();
     }
@@ -102,8 +101,19 @@ public class CardDispenser : MonoBehaviour
 
     private void HandleCardDeselected(CardDispenser dispenser)
     {
-        if (dispenser == this)
-            currentCard?.PlayDeselectCardTween();
+        if (dispenser != this)
+            return;
+
+        currentCard?.PlayDeselectCardTween();
     }
 
+    private void TryPlayCard(CardDispenser dispenser)
+    {
+        if (dispenser != this)
+            return;
+
+        currentCard.PlayPlayedCardTween();
+
+        DrawCard();
+    }
 }

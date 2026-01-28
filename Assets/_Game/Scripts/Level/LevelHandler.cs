@@ -1,15 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class LevelHandler : MonoBehaviour
 {
     [SerializeField] LevelGenerator levelGenerator;
-    [SerializeField] CameraManager cameraManager;
-    [SerializeField] Player playerPrefab;
 
-    Player player;
     OngoingLevelData ongoingLevelData;
     CardSelectionService cardSelectionService;
 
@@ -18,8 +14,11 @@ public class LevelHandler : MonoBehaviour
     public UnityEvent OnNewCardSelected;
 
     public UnityEvent<LevelData, CardSelectionService> OnLevelStarted;
+    public UnityEvent OnGridGenerated;
+    public UnityEvent<Tile> OnTileClicked;
 
     public OngoingLevelData OngoingLevelData => ongoingLevelData;
+
 
     private void Awake()
     {
@@ -33,20 +32,19 @@ public class LevelHandler : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
     public async void StartLevel(LevelData data)
     {
         //Delaying a few frames to make sure everything is properly initialized
         await UniTask.DelayFrame(3);
 
-        ClearLevel();
-
         ongoingLevelData = levelGenerator.GenerateLevel(data);
 
-        cameraManager.SetCameraPosition(ongoingLevelData.Tiles);
-
-        player = Instantiate(playerPrefab);
-        player.transform.position = ongoingLevelData.GetTileWorldCoordinate(ongoingLevelData.LevelData.PlayerStartPos);
-
+        OnGridGenerated?.Invoke();
 
         cardSelectionService = new CardSelectionService();
 
@@ -59,21 +57,25 @@ public class LevelHandler : MonoBehaviour
 
     public void SelectCard(CardDispenser _, CardData selectedCard)
     {
-        ongoingLevelData.SelectedCard = selectedCard;
+        ongoingLevelData.CurrentlySelectedCard = selectedCard;
         OnNewCardSelected?.Invoke();
     }
 
     public void DeselectCard(CardDispenser _)
     {
-        ongoingLevelData.SelectedCard = null;
+        ongoingLevelData.CurrentlySelectedCard = null;
         OnNewCardSelected?.Invoke();
     }
 
-    void ClearLevel()
+    public void ClickTile(Tile clickedTile)
     {
-        if (player)
-        {
-            Destroy(player.gameObject);
-        }
+        OnTileClicked?.Invoke(clickedTile);
+    }
+
+    public void PlayCardOnTile(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
+    {
+        //Add card to list for undos and final visualization
+
+        cardSelectionService.PlaySelectedCard();
     }
 }

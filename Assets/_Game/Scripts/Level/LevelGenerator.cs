@@ -31,7 +31,6 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-
         return new OngoingLevelData(
             levelData: levelData,
             tiles : instantiatedTiles,

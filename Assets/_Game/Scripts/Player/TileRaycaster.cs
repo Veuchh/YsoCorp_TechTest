@@ -43,9 +43,14 @@ public class TileRaycaster : MonoBehaviour
     {
         this.isTouchDown = isTouchDown;
 
-        if (LevelHandler.Instance != null
+        if (LevelHandler.Instance.OngoingLevelData != null
             && !isTouchDown)
         {
+            if (LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile != null)
+            {
+                LevelHandler.Instance.ClickTile(LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile);
+            }
+
             LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile = null;
             LevelHandler.Instance.OngoingLevelData.IsHighlightDirty = true;
         }

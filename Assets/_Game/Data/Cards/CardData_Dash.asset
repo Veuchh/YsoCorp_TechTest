@@ -23,9 +23,10 @@ MonoBehaviour:
     m_LocalVariables: []
   cardImage: {fileID: 21300000, guid: 7b7bade5d2579da4f978a261557fab09, type: 3}
   cardAttributes: 1
+  validTileCheckType: 1
+  circularRange: {x: 1, y: 1}
   cardEffects:
   - effectType: 1
-    moveRange: 1
   references:
     version: 2
     RefIds: []
