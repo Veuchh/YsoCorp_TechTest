@@ -6,13 +6,13 @@ public static class CardValidityCheck
     {
         switch (card.ValidTileCheckType)
         {
-            case ValidTileCheckType.AnyInCircularRange:
-                return CheckValidityForAnyInCircularRange(tile, card);
+            case ValidTileCheckType.AnyInCircularRangeNoEnemy:
+                return CheckValidityForAnyInCircularRangeNoEnemy(tile, card);
         }
         return TileValidity.Neutral;
     }
 
-    private static TileValidity CheckValidityForAnyInCircularRange(Tile tile, CardData card)
+    private static TileValidity CheckValidityForAnyInCircularRangeNoEnemy(Tile tile, CardData card)
     {
         Vector2Int playerPosition = LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition;
         Vector2Int tileCoord = LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile);
@@ -23,10 +23,16 @@ public static class CardValidityCheck
         if (positionDifference >= range.x
             && positionDifference <= range.y)
         {
+            foreach (var enemy in LevelHandler.Instance.OngoingLevelData.EnemiesInLevel)
+            {
+                if (enemy.CurrentCoord == LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile))
+                {
+                    return TileValidity.Invalid;
+                }
+            }
+
             return TileValidity.Valid;
         }
-
-        //TODO : change if enemy will be there
 
         return TileValidity.Neutral;
     }

@@ -14,7 +14,7 @@ public class CardData : ScriptableObject
     [Header("Card valid clicks")]
     [SerializeField] ValidTileCheckType validTileCheckType;
 
-    [ShowIf(nameof(validTileCheckType), ValidTileCheckType.AnyInCircularRange)]
+    [ShowIf(nameof(validTileCheckType), ValidTileCheckType.AnyInCircularRangeNoEnemy)]
     [SerializeField]
     [AllowNesting]
     [Tooltip("The range of movement you are able to move by playing this card (not accounting for diagonals)")]

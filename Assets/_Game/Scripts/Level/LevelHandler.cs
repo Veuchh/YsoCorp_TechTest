@@ -16,6 +16,7 @@ public class LevelHandler : MonoBehaviour
     public UnityEvent<LevelData, CardDrawAndSelectService> OnLevelStarted;
     public UnityEvent OnGridGenerated;
     public UnityEvent OnNewPlayedCardList;
+    public UnityEvent OnEnemyTick;
     public UnityEvent<PlayedCard> OnCardUndone;
     public UnityEvent<Tile> OnTileClicked;
 
@@ -88,6 +89,7 @@ public class LevelHandler : MonoBehaviour
         cardDrawSelectionService.PlaySelectedCard();
 
         OnNewPlayedCardList?.Invoke();
+        OnEnemyTick?.Invoke();
     }
 
     public void TryUndo()

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,9 @@ public class SquareRowLayout : MonoBehaviour
         rect = transform as RectTransform;
     }
 
-    public void Initialize()
+    public async void Initialize()
     {
+        await UniTask.NextFrame();
         int count = transform.childCount;
         if (count == 0)
             return;

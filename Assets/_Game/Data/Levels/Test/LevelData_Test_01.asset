@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   GridSize: {x: 4, y: 6}
   PlayerStartPos: {x: 1, y: 0}
-  cardDispenserAttributes: 01000000
+  cardDispenserAttributes: 01000000010000000100000001000000
+  EnemiesInLevel:
+  - enemyData: {fileID: 11400000, guid: d850fdbec11a07141b02abbda42dc510, type: 2}
+    spawnPosition: {x: 1, y: 3}
+  - enemyData: {fileID: 11400000, guid: d850fdbec11a07141b02abbda42dc510, type: 2}
+    spawnPosition: {x: 3, y: 5}

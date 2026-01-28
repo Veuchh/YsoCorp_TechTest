@@ -13,6 +13,7 @@ public class OngoingLevelData
     public bool IsHighlightDirty = false;
     public Player Player;
     public List<PlayedCard> PlayedCards;
+    public List<EnemyEntity> EnemiesInLevel;
 
     public OngoingLevelData(LevelData levelData, Tile[,] tiles, Vector2Int playerPosition)
     {
@@ -20,6 +21,7 @@ public class OngoingLevelData
         CurrentPlayerPreviewPosition = playerPosition;
         LevelData = levelData;
         PlayedCards = new List<PlayedCard>();
+        EnemiesInLevel = new List<EnemyEntity>();
     }
 
     public Vector3 GetTileWorldCoordinate(Tile tile)

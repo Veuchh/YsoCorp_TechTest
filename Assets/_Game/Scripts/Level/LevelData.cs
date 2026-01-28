@@ -12,4 +12,6 @@ public class LevelData : ScriptableObject
     [Tooltip("Every entry in this list will be a card dispenser in the level." +
         "The chosen values determines what type of card can be drawed by the dispenser.")]
     public List<CardAttributes> cardDispenserAttributes;
+
+    public List<EnemyInLevelData> EnemiesInLevel;
 }
