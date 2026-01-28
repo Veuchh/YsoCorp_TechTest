@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectHandler : MonoBehaviour
@@ -53,18 +53,39 @@ public class CardEffectHandler : MonoBehaviour
                 case CardEffectType.MoveToClickedTile:
                     MovePlayerToPosition(clickedTileCoord);
                     break;
+                case CardEffectType.AttackClickedTile:
+                    AttackTile(clickedTileCoord);
+                    break;
+                case CardEffectType.RotateTowardsClickedTile:
+                    LevelHandler.Instance.OngoingLevelData.Player.RotateTowardsPosition(
+                        LevelHandler.Instance.OngoingLevelData.GetTileWorldCoordinate(clickedTileCoord));
+                    break;
+                case CardEffectType.TriggerPlayerAnimation:
+                    LevelHandler.Instance.OngoingLevelData.Player.TriggerAnimation(cardEffect.AnimationID);
+                    break;
             }
         }
 
         LevelHandler.Instance.OngoingLevelData.CurrentlySelectedCard = null;
         LevelHandler.Instance.OngoingLevelData.IsHighlightDirty = true;
-        //TODO tick entity handler
     }
 
     private void MovePlayerToPosition(Vector2Int newPosition)
     {
-        //TODO call entityHandler move player
         LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition = newPosition;
         EntitiesHandler.Instance.MovePlayerToTileByCoord(newPosition);
+    }
+
+    private void AttackTile(Vector2Int attackedCoord)
+    {
+        List<EnemyEntity> enemies = LevelHandler.Instance.OngoingLevelData.EnemiesInLevel;
+
+        foreach (var enemy in enemies)
+        {
+            if (enemy.CurrentCoord == attackedCoord)
+            {
+                enemy.TryKill();
+            }
+        }
     }
 }

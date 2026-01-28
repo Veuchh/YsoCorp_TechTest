@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -16,11 +15,14 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpDuration = .3f;
     [SerializeField] float jumpHeight = 5;
 
+    [Header("Tween - Rotate")]
+    [SerializeField] float rotateDuration = .35f;
+
     float currentJumpFadeProgress;
     Animator animator;
     Dictionary<Renderer, MaterialPropertyBlock> bodyParts;
 
-    Sequence currentTween;
+    Sequence currentMoveTween;
 
     private void Awake()
     {
@@ -36,34 +38,30 @@ public class Player : MonoBehaviour
 
     public void MoveToPosition(Vector3 targetPos, bool reverseRotation)
     {
-        TryKillCurrentTween();
+        TryKillCurrentMoveTween();
 
-        currentTween = DOTween.Sequence();
+        currentMoveTween = DOTween.Sequence();
 
-        float angle = Mathf.Atan2(targetPos.x - transform.position.x, targetPos.z - transform.position.z) * Mathf.Rad2Deg;
+        currentMoveTween.AppendCallback(() => animator.SetTrigger(START_JUMP_TRIGGER));
+        currentMoveTween.Append(RotateTowardsPositionTween(targetPos, jumpDuration / 4, reverseRotation));
 
-        angle += reverseRotation ? 180 : 0;
+        currentMoveTween.Join(transform.DOMove(transform.position + Vector3.up * jumpHeight, jumpDuration / 2).SetEase(Ease.Linear));
 
-        currentTween.AppendCallback(() => animator.SetTrigger(START_JUMP_TRIGGER));
-        currentTween.Append(rotationTarget.DOLocalRotate(new Vector3(0, angle, 0), jumpDuration/4));
-
-        currentTween.Join(transform.DOMove(transform.position + Vector3.up * jumpHeight, jumpDuration/2).SetEase(Ease.Linear));
-
-        currentTween.Join(
+        currentMoveTween.Join(
             DOTween.To(
-                getter:() => currentJumpFadeProgress,
-                setter:x => SetJumpFadeProgress(x),
-                endValue:0,
+                getter: () => currentJumpFadeProgress,
+                setter: x => SetJumpFadeProgress(x),
+                endValue: 0,
                 duration: jumpDuration / 3).SetEase(Ease.OutQuint));
 
-        currentTween.AppendInterval(jumpDuration * .02f);
-        currentTween.AppendCallback(() => transform.position = targetPos + Vector3.up * jumpHeight);
-        currentTween.AppendInterval(jumpDuration * .02f);
+        currentMoveTween.AppendInterval(jumpDuration * .02f);
+        currentMoveTween.AppendCallback(() => transform.position = targetPos + Vector3.up * jumpHeight);
+        currentMoveTween.AppendInterval(jumpDuration * .02f);
 
-        currentTween.AppendCallback(() => animator.SetTrigger(END_JUMP_TRIGGER));
-        currentTween.Append(transform.DOMove(targetPos, jumpDuration/2).SetEase(Ease.Linear));
+        currentMoveTween.AppendCallback(() => animator.SetTrigger(END_JUMP_TRIGGER));
+        currentMoveTween.Append(transform.DOMove(targetPos, jumpDuration / 2).SetEase(Ease.Linear));
 
-        currentTween.Join(
+        currentMoveTween.Join(
             DOTween.To(
                 getter: () => currentJumpFadeProgress,
                 setter: x => SetJumpFadeProgress(x),
@@ -71,11 +69,27 @@ public class Player : MonoBehaviour
                 duration: jumpDuration / 3).SetEase(Ease.InQuint));
     }
 
-    void TryKillCurrentTween()
+    public void RotateTowardsPosition(Vector3 targetPosition, bool reverseRotation = false)
     {
-        if (currentTween != null)
+        TryKillCurrentMoveTween();
+
+        currentMoveTween = DOTween.Sequence();
+        currentMoveTween.Append(RotateTowardsPositionTween(targetPosition, rotateDuration, reverseRotation));
+    }
+
+    Tween RotateTowardsPositionTween(Vector3 targetPosition, float duration, bool reverseRotation = false)
+    {
+        float angle = Mathf.Atan2(targetPosition.x - transform.position.x, targetPosition.z - transform.position.z) * Mathf.Rad2Deg;
+
+        angle += reverseRotation ? 180 : 0;
+        return rotationTarget.DOLocalRotate(new Vector3(0, angle, 0), duration);
+    }
+
+    void TryKillCurrentMoveTween()
+    {
+        if (currentMoveTween != null)
         {
-            currentTween.Kill();
+            currentMoveTween.Kill();
         }
     }
 
@@ -89,5 +103,10 @@ public class Player : MonoBehaviour
             bodyParts[renderer].SetFloat(COLOR_KEY, jumpFadeProgress);
             renderer.SetPropertyBlock(bodyParts[renderer]);
         }
+    }
+
+    public void TriggerAnimation(PlayerAnimations animationID)
+    {
+        animator.SetTrigger(animationID.ToString());
     }
 }

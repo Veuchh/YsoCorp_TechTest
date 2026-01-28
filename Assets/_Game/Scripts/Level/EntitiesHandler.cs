@@ -46,7 +46,12 @@ public class EntitiesHandler : MonoBehaviour
 
         foreach (EnemyEntity enemy in ongGoingLevelDataReference.EnemiesInLevel)
         {
-            currentEnemmiesState.Add(new EnemyState(enemy, enemy.HasReachedEndOfMap, enemy.CurrentCoord));
+            currentEnemmiesState.Add(
+                new EnemyState(
+                    enemy,
+                    enemy.HasReachedEndOfMap,
+                    enemy.CurrentCoord,
+                    enemy.IsAlive));
         }
 
         ongGoingLevelDataReference.PlayedCards.Last().SetEnemiesState(currentEnemmiesState);
@@ -61,6 +66,9 @@ public class EntitiesHandler : MonoBehaviour
 
     private void TryAdvanceEnemy(EnemyEntity enemy)
     {
+        if (!enemy.IsAlive)
+            return;
+
         Vector2Int targetMovementCoord = enemy.CurrentCoord;
         targetMovementCoord.y -= enemy.Data.MovementPerAction;
         enemy.SetCoordinates(targetMovementCoord);
@@ -137,20 +145,24 @@ public class EntitiesHandler : MonoBehaviour
         ongGoingLevelDataReference.Player.MoveToPosition(ongGoingLevelDataReference.GetTileWorldCoordinate(tileCoord), reverseRotation);
     }
 
-    private void OnUndo(PlayedCard undoneCard)
+    private void OnUndo(LevelStateOnAction undoneCard)
     {
-        MovePlayerToTileByCoord(
-            undoneCard.PlayerPosOnStartPlayCard,
-            reverseRotation: true);
+        if (undoneCard.PlayerPosOnStartPlayCard != ongGoingLevelDataReference.CurrentPlayerPreviewPosition)
+        {
+            MovePlayerToTileByCoord(
+                undoneCard.PlayerPosOnStartPlayCard,
+                reverseRotation: true);
+        }
 
         foreach (EnemyState enemyState in undoneCard.EnemiesState)
         {
-            if (!enemyState.HasEnemyReachedEndOfMap)
+            if (!enemyState.HasEnemyReachedEndOfMap && enemyState.IsAlive)
             {
                 Vector3 targetMoveCoord = ongGoingLevelDataReference.GetTileWorldCoordinate(enemyState.CoordBeforePlayedCard);
                 enemyState.EnemyReference.PlayMoveAnim(targetMoveCoord);
             }
 
+            enemyState.EnemyReference.SetIsAlive(enemyState.IsAlive);
             enemyState.EnemyReference.SetCoordinates(enemyState.CoordBeforePlayedCard);
             enemyState.EnemyReference.SetHasReachedEndOfMap(enemyState.HasEnemyReachedEndOfMap);
         }

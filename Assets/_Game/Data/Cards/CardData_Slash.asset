@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b2d3c63fa665742a490a680c126a17, type: 3}
+  m_Name: CardData_Slash
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8dbf486cbe11af64ca9cc923fdc6f111
+    m_TableEntryReference:
+      m_KeyId: 752987434684416
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cardImage: {fileID: 21300000, guid: d8357bcbc086b2a47996a6f4b2eea94e, type: 3}
+  cardAttributes: 2
+  validTileCheckType: 2
+  circularRangeNoEnemy: {x: 1, y: 1}
+  circularRange: {x: 1, y: 1}
+  cardEffects:
+  - effectType: 2
+    animationID: 0
+  - effectType: 3
+    animationID: 0
+  - effectType: 4
+    animationID: 1
+  references:
+    version: 2
+    RefIds: []

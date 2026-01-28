@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardDeck
   defaultUnlockedCards:
   - {fileID: 11400000, guid: 412861de8d09c6349938e5a49e61cb95, type: 2}
+  - {fileID: 11400000, guid: 13eebb2c3566dc346a52cc151779be68, type: 2}
+  - {fileID: 11400000, guid: 9a8970698a435d64894de942199a674d, type: 2}

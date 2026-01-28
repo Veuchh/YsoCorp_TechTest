@@ -8,11 +8,39 @@ public static class CardValidityCheck
         {
             case ValidTileCheckType.AnyInCircularRangeNoEnemy:
                 return CheckValidityForAnyInCircularRangeNoEnemy(tile, card);
+            case ValidTileCheckType.AnyInCircularRange:
+                return CheckValidityForAnyInCircularRange(tile, card);
         }
         return TileValidity.Neutral;
     }
 
     private static TileValidity CheckValidityForAnyInCircularRangeNoEnemy(Tile tile, CardData card)
+    {
+        Vector2Int playerPosition = LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition;
+        Vector2Int tileCoord = LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile);
+
+        Vector2Int range = card.CircularRangeNoEnemy;
+        int positionDifference = Mathf.Abs(playerPosition.x - tileCoord.x) + Mathf.Abs(playerPosition.y - tileCoord.y);
+
+        if (positionDifference >= range.x
+            && positionDifference <= range.y)
+        {
+            foreach (var enemy in LevelHandler.Instance.OngoingLevelData.EnemiesInLevel)
+            {
+                if (enemy.IsAlive
+                    && enemy.CurrentCoord == LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile))
+                {
+                    return TileValidity.Invalid;
+                }
+            }
+
+            return TileValidity.Valid;
+        }
+
+        return TileValidity.Neutral;
+    }
+
+    private static TileValidity CheckValidityForAnyInCircularRange(Tile tile, CardData card)
     {
         Vector2Int playerPosition = LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition;
         Vector2Int tileCoord = LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile);
@@ -23,14 +51,6 @@ public static class CardValidityCheck
         if (positionDifference >= range.x
             && positionDifference <= range.y)
         {
-            foreach (var enemy in LevelHandler.Instance.OngoingLevelData.EnemiesInLevel)
-            {
-                if (enemy.CurrentCoord == LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile))
-                {
-                    return TileValidity.Invalid;
-                }
-            }
-
             return TileValidity.Valid;
         }
 

@@ -8,7 +8,7 @@ public class CardDrawAndSelectService
     public UnityEvent<CardDispenser, CardData> OnCardSelected = new UnityEvent<CardDispenser, CardData>();
     public UnityEvent<CardDispenser> OnCardDeselected = new UnityEvent<CardDispenser>();
     public UnityEvent<CardDispenser> OnSelectedCardPlayed = new UnityEvent<CardDispenser>();
-    public UnityEvent<PlayedCard> OnUndo = new UnityEvent<PlayedCard>();
+    public UnityEvent<LevelStateOnAction> OnUndo = new UnityEvent<LevelStateOnAction>();
 
     public void Select(CardDispenser dispenser, CardData card)
     {
@@ -41,7 +41,7 @@ public class CardDrawAndSelectService
         SelectedDispenser = null;
     }
 
-    public void Undo(PlayedCard playedCard)
+    public void Undo(LevelStateOnAction playedCard)
     {
         ClearSelectedCard();
         OnUndo?.Invoke(playedCard);

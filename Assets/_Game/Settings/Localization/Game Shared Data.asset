@@ -27,6 +27,14 @@ MonoBehaviour:
     m_Key: Card.Dash.Name
     m_Metadata:
       m_Items: []
+  - m_Id: 745325011701760
+    m_Key: Card.Wait.Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 752987434684416
+    m_Key: Card.Slash.Name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

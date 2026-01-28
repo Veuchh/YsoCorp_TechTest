@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayedCard
+public class LevelStateOnAction
 {
     CardData cardData;
     Vector2Int playerPosOnStartPlayCard;
@@ -15,7 +15,7 @@ public class PlayedCard
     public CardDispenser OriginDispenser => originDispenser;
     public List<EnemyState> EnemiesState => enemiesState;
 
-    public PlayedCard(CardData cardData, Vector2Int playerPosOnStartPlayCard, Vector2Int clickedTileCoord, CardDispenser originDispenser)
+    public LevelStateOnAction(CardData cardData, Vector2Int playerPosOnStartPlayCard, Vector2Int clickedTileCoord, CardDispenser originDispenser)
     {
         this.cardData = cardData;
         this.playerPosOnStartPlayCard = playerPosOnStartPlayCard;
