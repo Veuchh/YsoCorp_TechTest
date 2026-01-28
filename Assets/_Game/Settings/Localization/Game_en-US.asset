@@ -17,7 +17,19 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 8dbf486cbe11af64ca9cc923fdc6f111, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 205576777797632
+    m_Localized: Undo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206292577718272
+    m_Localized: Play Sequence
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290566324654080
+    m_Localized: Dash
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

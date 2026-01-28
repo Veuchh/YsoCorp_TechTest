@@ -14,7 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: Game
   m_TableCollectionNameGuidString: 8dbf486cbe11af64ca9cc923fdc6f111
-  m_Entries: []
+  m_Entries:
+  - m_Id: 205576777797632
+    m_Key: Btn.Undo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206292577718272
+    m_Key: Btn.PlaySequence
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290566324654080
+    m_Key: Card.Dash.Name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
