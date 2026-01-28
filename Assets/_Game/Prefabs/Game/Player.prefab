@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82e401a730f1ae45beac1c0acfd9793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  rotationTarget: {fileID: 5612017068756936850}
+  jumpDuration: 0.5
+  jumpHeight: 8
 --- !u!1 &7549554792476253905
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 84cdd649b81c61b4c943eb47676fd6de, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerMesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

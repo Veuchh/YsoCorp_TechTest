@@ -49,19 +49,18 @@ public class EntitiesHandler : MonoBehaviour
         MovePlayerToTileByCoord(LevelHandler.Instance.OngoingLevelData.GetTileGridCoord(tile));
     }
 
-    public void MovePlayerToTileByCoord(Vector2Int tileCoord)
+    public void MovePlayerToTileByCoord(Vector2Int tileCoord, bool reverseRotation = false)
     {
-        LevelHandler.Instance.OngoingLevelData.Player.transform.position
-            = LevelHandler.Instance.OngoingLevelData.GetTileWorldCoordinate(tileCoord);
-
         LevelHandler.Instance.OngoingLevelData.CurrentPlayerPreviewPosition
             = tileCoord;
 
-        //todo : animation
+        LevelHandler.Instance.OngoingLevelData.Player.MoveToPosition(LevelHandler.Instance.OngoingLevelData.GetTileWorldCoordinate(tileCoord), reverseRotation);
     }
 
     private void OnUndo(PlayedCard undoneCard)
     {
-        MovePlayerToTileByCoord(undoneCard.PlayerPosOnStartPlayCard);
+        MovePlayerToTileByCoord(
+            undoneCard.PlayerPosOnStartPlayCard,
+            reverseRotation : true);
     }
 }
