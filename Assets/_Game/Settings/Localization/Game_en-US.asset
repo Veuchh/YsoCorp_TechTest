@@ -34,6 +34,10 @@ MonoBehaviour:
     m_Localized: Wait
     m_Metadata:
       m_Items: []
+  - m_Id: 752987434684416
+    m_Localized: Slash
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

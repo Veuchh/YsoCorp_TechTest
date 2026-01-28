@@ -17,7 +17,7 @@ public class LevelHandler : MonoBehaviour
     public UnityEvent OnGridGenerated;
     public UnityEvent OnNewPlayedCardList;
     public UnityEvent OnEnemyTick;
-    public UnityEvent<PlayedCard> OnCardUndone;
+    public UnityEvent<LevelStateOnAction> OnCardUndone;
     public UnityEvent<Tile> OnTileClicked;
 
     public OngoingLevelData OngoingLevelData => ongoingLevelData;
@@ -79,7 +79,7 @@ public class LevelHandler : MonoBehaviour
     public void PlayCardOnTile(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
     {
         //Add card to list for undos and final visualization
-        PlayedCard playedCard = new PlayedCard(
+        LevelStateOnAction playedCard = new LevelStateOnAction(
             cardData: currentlySelectedCard,
             playerPosOnStartPlayCard: ongoingLevelData.CurrentPlayerPreviewPosition,
             clickedTileCoord: clickedTileCoord,
@@ -94,7 +94,7 @@ public class LevelHandler : MonoBehaviour
 
     public void TryUndo()
     {
-        PlayedCard undoneCard = ongoingLevelData.TryGetAndRemoveUndoCard();
+        LevelStateOnAction undoneCard = ongoingLevelData.TryGetAndRemoveUndoCard();
 
         if (undoneCard != null)
         {

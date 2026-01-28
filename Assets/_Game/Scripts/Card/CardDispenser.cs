@@ -124,7 +124,7 @@ public class CardDispenser : MonoBehaviour
         DrawRandomCard();
     }
 
-    private void Undo(PlayedCard playedCard)
+    private void Undo(LevelStateOnAction playedCard)
     {
         if (playedCard.OriginDispenser != this)
             return;
