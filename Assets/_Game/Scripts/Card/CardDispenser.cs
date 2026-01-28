@@ -6,13 +6,12 @@ public class CardDispenser : MonoBehaviour
     [SerializeField] UICard uiCardPrefab;
     [SerializeField] CardDeck cardDeck;
 
-    //This will be refilled when undoing
-    Stack<CardData> undoneCards = new Stack<CardData>();
+    Stack<CardData> knownBelowCards = new Stack<CardData>();
     CardAttributes availableCardsAttributes;
     UICard currentCard;
-    CardSelectionService selectionService;
+    CardDrawAndSelectService selectionService;
 
-    public void Initialize(CardAttributes availableCardsAttributes, CardSelectionService selectionService)
+    public void Initialize(CardAttributes availableCardsAttributes, CardDrawAndSelectService selectionService)
     {
         this.availableCardsAttributes = availableCardsAttributes;
         this.selectionService = selectionService;
@@ -20,8 +19,9 @@ public class CardDispenser : MonoBehaviour
         selectionService.OnCardSelected.AddListener(HandleCardSelected);
         selectionService.OnCardDeselected.AddListener(HandleCardDeselected);
         selectionService.OnSelectedCardPlayed.AddListener(TryPlayCard);
+        selectionService.OnUndo.AddListener(Undo);
 
-        DrawCard();
+        DrawRandomCard();
     }
 
     void OnDestroy()
@@ -30,29 +30,36 @@ public class CardDispenser : MonoBehaviour
 
         selectionService.OnCardSelected.RemoveListener(HandleCardSelected);
         selectionService.OnCardDeselected.RemoveListener(HandleCardDeselected);
+        selectionService.OnSelectedCardPlayed.RemoveListener(TryPlayCard);
+        selectionService.OnUndo.RemoveListener(Undo);
     }
 
-    private void DrawCard()
+    private void DrawRandomCard()
     {
-        CardData cardData;
+        CardData cardData = cardDeck.DrawCardByAttribute(availableCardsAttributes);
 
-
-        if (undoneCards.Count > 0)
+        if (knownBelowCards.Count != 0)
         {
-            cardData = undoneCards.Pop();
-        }
-        else
-        {
-            cardData = cardDeck.DrawCardByAttribute(availableCardsAttributes);
-            if (cardData == null)
-            {
-                Debug.Log($"Could not find unlocked card with the following attributes : {availableCardsAttributes} " +
-                    $"when trying to draw card from {gameObject.name}", this);
-                return;
-            }
+            cardData = knownBelowCards.Pop();
         }
 
-        UnsubscribeFromCardEvent(currentCard);
+        if (cardData == null)
+        {
+            Debug.Log($"Could not find unlocked card with the following attributes : {availableCardsAttributes} " +
+                $"when trying to draw card from {gameObject.name}", this);
+            return;
+        }
+
+        DrawCard(cardData);
+    }
+
+    private void DrawCard(CardData card)
+    {
+        if (currentCard != null)
+        {
+            Destroy(currentCard.gameObject);
+            UnsubscribeFromCardEvent(currentCard);
+        }
 
         Vector3 cardSpawnPosition =
             new Vector3(-Screen.width * .75f,
@@ -61,7 +68,7 @@ public class CardDispenser : MonoBehaviour
 
         currentCard = Instantiate(uiCardPrefab, cardSpawnPosition, Quaternion.identity, transform);
         currentCard.PlayDrawCardTween();
-        currentCard.Initialize(cardData);
+        currentCard.Initialize(card);
 
         SubscribeToCardEvent(currentCard);
     }
@@ -114,6 +121,15 @@ public class CardDispenser : MonoBehaviour
 
         currentCard.PlayPlayedCardTween();
 
-        DrawCard();
+        DrawRandomCard();
+    }
+
+    private void Undo(PlayedCard playedCard)
+    {
+        if (playedCard.OriginDispenser != this)
+            return;
+
+        knownBelowCards.Push(currentCard.CardData);
+        DrawCard(playedCard.CardData);
     }
 }

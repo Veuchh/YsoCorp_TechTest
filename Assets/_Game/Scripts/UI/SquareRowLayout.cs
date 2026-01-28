@@ -6,12 +6,14 @@ public class SquareRowLayout : MonoBehaviour
 {
     GridLayoutGroup gridLayoutGroup;
     RectTransform rect;
+
     void Awake()
     {
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         rect = transform as RectTransform;
     }
-    void LateUpdate()
+
+    public void Initialize()
     {
         int count = transform.childCount;
         if (count == 0)

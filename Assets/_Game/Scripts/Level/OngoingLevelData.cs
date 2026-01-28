@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class OngoingLevelData
@@ -11,12 +12,14 @@ public class OngoingLevelData
     public Tile CurrentlyHoveredTile;
     public bool IsHighlightDirty = false;
     public Player Player;
+    public List<PlayedCard> PlayedCards;
 
     public OngoingLevelData(LevelData levelData, Tile[,] tiles, Vector2Int playerPosition)
     {
         Tiles = tiles;
         CurrentPlayerPreviewPosition = playerPosition;
         LevelData = levelData;
+        PlayedCards = new List<PlayedCard>();
     }
 
     public Vector3 GetTileWorldCoordinate(Tile tile)
@@ -35,15 +38,31 @@ public class OngoingLevelData
         {
             for (int y = 0; y < Tiles.GetLength(1); y++)
             {
-                if (Tiles[x,y] == clickedTile)
+                if (Tiles[x, y] == clickedTile)
                 {
-                    return new Vector2Int(x,y);
+                    return new Vector2Int(x, y);
                 }
             }
         }
 
         Debug.LogError("The tile was not found in the grid");
 
-        return new Vector2Int(-1,-1);
+        return new Vector2Int(-1, -1);
+    }
+
+    public void AddPlayedCard(PlayedCard playedCard)
+    {
+        PlayedCards.Add(playedCard);
+    }
+
+    public PlayedCard TryGetAndRemoveUndoCard()
+    {
+        if (PlayedCards.Count == 0)
+            return null;
+
+        PlayedCard removedCard = PlayedCards.Last();
+        PlayedCards.RemoveAt(PlayedCards.Count - 1);
+
+        return removedCard;
     }
 }

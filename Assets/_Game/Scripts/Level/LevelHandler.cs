@@ -7,14 +7,16 @@ public class LevelHandler : MonoBehaviour
     [SerializeField] LevelGenerator levelGenerator;
 
     OngoingLevelData ongoingLevelData;
-    CardSelectionService cardSelectionService;
+    CardDrawAndSelectService cardDrawSelectionService;
 
     public static LevelHandler Instance { get; private set; }
 
     public UnityEvent OnNewCardSelected;
 
-    public UnityEvent<LevelData, CardSelectionService> OnLevelStarted;
+    public UnityEvent<LevelData, CardDrawAndSelectService> OnLevelStarted;
     public UnityEvent OnGridGenerated;
+    public UnityEvent OnNewPlayedCardList;
+    public UnityEvent<PlayedCard> OnCardUndone;
     public UnityEvent<Tile> OnTileClicked;
 
     public OngoingLevelData OngoingLevelData => ongoingLevelData;
@@ -46,13 +48,14 @@ public class LevelHandler : MonoBehaviour
 
         OnGridGenerated?.Invoke();
 
-        cardSelectionService = new CardSelectionService();
+        cardDrawSelectionService = new CardDrawAndSelectService();
 
-        cardSelectionService.OnCardSelected.AddListener(SelectCard);
-        cardSelectionService.OnCardDeselected.AddListener(DeselectCard);
+        cardDrawSelectionService.OnCardSelected.AddListener(SelectCard);
+        cardDrawSelectionService.OnCardDeselected.AddListener(DeselectCard);
 
-        OnLevelStarted?.Invoke(data, cardSelectionService);
+        OnLevelStarted?.Invoke(data, cardDrawSelectionService);
         OnNewCardSelected?.Invoke();
+        OnNewPlayedCardList?.Invoke();
     }
 
     public void SelectCard(CardDispenser _, CardData selectedCard)
@@ -75,7 +78,28 @@ public class LevelHandler : MonoBehaviour
     public void PlayCardOnTile(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
     {
         //Add card to list for undos and final visualization
+        PlayedCard playedCard = new PlayedCard(
+            cardData: currentlySelectedCard,
+            playerPosOnStartPlayCard: ongoingLevelData.CurrentPlayerPreviewPosition,
+            clickedTileCoord: clickedTileCoord,
+            originDispenser: cardDrawSelectionService.SelectedDispenser);
 
-        cardSelectionService.PlaySelectedCard();
+        ongoingLevelData.AddPlayedCard(playedCard);
+        cardDrawSelectionService.PlaySelectedCard();
+
+        OnNewPlayedCardList?.Invoke();
+    }
+
+    public void TryUndo()
+    {
+        PlayedCard undoneCard = ongoingLevelData.TryGetAndRemoveUndoCard();
+
+        if (undoneCard != null)
+        {
+            OnCardUndone?.Invoke(undoneCard);
+        }
+
+        OnNewPlayedCardList?.Invoke();
+        cardDrawSelectionService.Undo(undoneCard);
     }
 }

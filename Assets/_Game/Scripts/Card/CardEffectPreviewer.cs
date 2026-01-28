@@ -20,7 +20,7 @@ public class CardEffectPreviewer : MonoBehaviour
 
     private void OnDestroy()
     {
-        LevelHandler.Instance.OnNewCardSelected.RemoveListener(UpdateHighlights);
+        LevelHandler.Instance?.OnNewCardSelected.RemoveListener(UpdateHighlights);
     }
 
     private void Update()

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   GridSize: {x: 4, y: 6}
   PlayerStartPos: {x: 1, y: 0}
-  cardDispenserAttributes: 010000000100000001000000
+  cardDispenserAttributes: 01000000

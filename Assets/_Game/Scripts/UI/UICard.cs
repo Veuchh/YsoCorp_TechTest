@@ -10,6 +10,8 @@ public class UICard : MonoBehaviour, IPointerDownHandler
 {
     public UnityEvent<CardData> OnCardClicked;
 
+    public CardData CardData => cardData;
+
     [Header("Setup")]
     [SerializeField] Image icon;
 

@@ -16,7 +16,7 @@ public class CardEffectHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        LevelHandler.Instance.OnTileClicked.RemoveListener(OnTileClicked);
+        LevelHandler.Instance?.OnTileClicked.RemoveListener(OnTileClicked);
     }
 
     private void OnTileClicked(Tile clickedTile)
@@ -44,6 +44,8 @@ public class CardEffectHandler : MonoBehaviour
 
     private void PlayCard(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
     {
+        LevelHandler.Instance.PlayCardOnTile(currentlySelectedCard, clickedTileCoord);
+
         foreach (CardEffect cardEffect in currentlySelectedCard.CardEffects)
         {
             switch (cardEffect.EffectType)
@@ -53,8 +55,6 @@ public class CardEffectHandler : MonoBehaviour
                     break;
             }
         }
-
-        LevelHandler.Instance.PlayCardOnTile(currentlySelectedCard, clickedTileCoord);
 
         LevelHandler.Instance.OngoingLevelData.CurrentlySelectedCard = null;
         LevelHandler.Instance.OngoingLevelData.IsHighlightDirty = true;

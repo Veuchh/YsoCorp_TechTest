@@ -24,12 +24,13 @@ public class EntitiesHandler : MonoBehaviour
         }
 
         LevelHandler.Instance.OnGridGenerated.AddListener(OnGridGenerated);
+        LevelHandler.Instance.OnCardUndone.AddListener(OnUndo);
     }
 
     private void OnDestroy()
     {
         Instance = null;
-        LevelHandler.Instance.OnGridGenerated.RemoveListener(OnGridGenerated);
+        LevelHandler.Instance?.OnGridGenerated.RemoveListener(OnGridGenerated);
     }
 
     private void OnGridGenerated()
@@ -57,5 +58,10 @@ public class EntitiesHandler : MonoBehaviour
             = tileCoord;
 
         //todo : animation
+    }
+
+    private void OnUndo(PlayedCard undoneCard)
+    {
+        MovePlayerToTileByCoord(undoneCard.PlayerPosOnStartPlayCard);
     }
 }
