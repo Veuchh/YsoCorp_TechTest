@@ -20,7 +20,13 @@ MonoBehaviour:
   cardEffects:
   - effectType: 2
     animationID: 0
+    audioDataToPlay: {fileID: 0}
   - effectType: 3
     animationID: 0
+    audioDataToPlay: {fileID: 0}
   - effectType: 4
     animationID: 1
+    audioDataToPlay: {fileID: 0}
+  - effectType: 5
+    animationID: 1
+    audioDataToPlay: {fileID: 11400000, guid: 45e1b936e20663346bdcf90a5dcf4a3f, type: 2}

@@ -12,21 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b2d3c63fa665742a490a680c126a17, type: 3}
   m_Name: CardData_Wait
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName:
-    m_TableReference:
-      m_TableCollectionName: GUID:8dbf486cbe11af64ca9cc923fdc6f111
-    m_TableEntryReference:
-      m_KeyId: 745325011701760
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
   cardImage: {fileID: 21300000, guid: f03f78816ea74cf49927f9022db4a5dd, type: 3}
   cardAttributes: 4
   validTileCheckType: 2
   circularRangeNoEnemy: {x: 0, y: 0}
   circularRange: {x: 0, y: 0}
-  cardEffects: []
-  references:
-    version: 2
-    RefIds: []
+  cardEffects:
+  - effectType: 5
+    animationID: 0
+    audioDataToPlay: {fileID: 11400000, guid: 5ac38b096f10cb141b0c8126c56ae44e, type: 2}

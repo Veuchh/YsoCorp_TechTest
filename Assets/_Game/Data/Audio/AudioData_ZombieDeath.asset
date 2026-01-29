@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5774ae2306c419a4287bfa4933949e35, type: 3}
+  m_Name: AudioData_ZombieDeath
+  m_EditorClassIdentifier: Assembly-CSharp::AudioData
+  clips:
+  - {fileID: 8300000, guid: 7c77f1eb0d0fe0b4baa277bccf812ad6, type: 3}
+  - {fileID: 8300000, guid: 82cf36ec44aac504e9e033acfa3a7359, type: 3}
+  - {fileID: 8300000, guid: 094c75e57d8e7b04ebfcf44401a95e5a, type: 3}
+  randomPitchMinMax: {x: 0.8, y: 1.1}
+  randomVolumeMinMax: {x: 0.75, y: 1}

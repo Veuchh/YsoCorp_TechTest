@@ -131,7 +131,7 @@ public class EntitiesHandler : MonoBehaviour
 
     private void SpawnEnemy(EnemyInLevelData enemyInLevelData)
     {
-        EnemyEntity newEnemy = Instantiate(enemyInLevelData.EnemyData.EnemyPrefab);
+        EnemyEntity newEnemy = Instantiate(enemyInLevelData.EnemyData.EnemyPrefab, transform);
         Vector3 targetSpawnPos = ongGoingLevelDataReference.GetTileWorldCoordinate(enemyInLevelData.SpawnPosition);
         newEnemy.PlaySpawnAnim(targetSpawnPos);
         newEnemy.SetCoordinates(enemyInLevelData.SpawnPosition);

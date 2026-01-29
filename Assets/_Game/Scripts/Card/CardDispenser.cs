@@ -5,6 +5,10 @@ public class CardDispenser : MonoBehaviour
 {
     [SerializeField] UICard uiCardPrefab;
     [SerializeField] CardDeck cardDeck;
+    [SerializeField] GameObject attackAttributeLabel;
+    [SerializeField] GameObject moveAttributeLabel;
+    [SerializeField] GameObject waitAttributeLabel;
+    [SerializeField] AudioData drawCardAudio;
 
     Stack<CardData> knownBelowCards = new Stack<CardData>();
     CardAttributes availableCardsAttributes;
@@ -20,6 +24,28 @@ public class CardDispenser : MonoBehaviour
         selectionService.OnCardDeselected.AddListener(HandleCardDeselected);
         selectionService.OnSelectedCardPlayed.AddListener(TryPlayCard);
         selectionService.OnUndo.AddListener(Undo);
+
+        //Display attack attribute
+        if (availableCardsAttributes.HasFlag(CardAttributes.Tutorial_Attack)
+            || availableCardsAttributes.HasFlag(CardAttributes.Attack)
+            || availableCardsAttributes.HasFlag(CardAttributes.LongAttack))
+        {
+            attackAttributeLabel.SetActive(true);
+        }
+        
+        //Display move attribute
+        if (availableCardsAttributes.HasFlag(CardAttributes.Tutorial_Move)
+            || availableCardsAttributes.HasFlag(CardAttributes.Movement)
+            || availableCardsAttributes.HasFlag(CardAttributes.LongMovement))
+        {
+            moveAttributeLabel.SetActive(true);
+        }
+
+        //Display wait attribute
+        if (availableCardsAttributes.HasFlag(CardAttributes.Wait))
+        {
+            waitAttributeLabel.SetActive(true);
+        }
 
         DrawRandomCard();
     }
@@ -61,6 +87,12 @@ public class CardDispenser : MonoBehaviour
             UnsubscribeFromCardEvent(currentCard);
         }
 
+        if (card == null)
+        {
+            Debug.LogError("CardData should not be null when drawing a card", this);
+            return;
+        }
+
         Vector3 cardSpawnPosition =
             new Vector3(-Screen.width * .75f,
             -Screen.height * .75f,
@@ -69,6 +101,8 @@ public class CardDispenser : MonoBehaviour
         currentCard = Instantiate(uiCardPrefab, cardSpawnPosition, Quaternion.identity, transform);
         currentCard.PlayDrawCardTween();
         currentCard.Initialize(card);
+
+        AudioManager.Instance.PlayAudioData(drawCardAudio);
 
         SubscribeToCardEvent(currentCard);
     }

@@ -91,6 +91,13 @@ public class LevelVisualizationHandler : MonoBehaviour
                 case CardEffectType.TriggerPlayerAnimation:
                     player.TriggerAnimation(cardEffect.AnimationID);
                     break;
+                case CardEffectType.AttackClickedTile:
+                    Tile attackedTile = LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(previousState.ClickedTileCoord);
+                    attackedTile.PlayAttackPS();
+                    break;
+                case CardEffectType.PlayAudio:
+                    AudioManager.Instance.PlayAudioData(cardEffect.AudioDataToPlay);
+                    break;
             }
         }
 

@@ -31,6 +31,82 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4632456400556872360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2417614397222580965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6525941321143507125}
+  - component: {fileID: 9194215659595675829}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6525941321143507125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2417614397222580965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3288622777465869894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9194215659595675829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2417614397222580965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96757fc5defdf2a40ae53d9cb2591a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+--- !u!1 &4078558248185864471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8696396156413950495}
+  m_Layer: 0
+  m_Name: ScreenshakeHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8696396156413950495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078558248185864471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3288622777465869894}
+  m_Father: {fileID: 4632456400556872360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5520427246778570224
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,8 +142,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1946901544620297116}
-  - {fileID: 3288622777465869894}
   - {fileID: 5081051267783152982}
+  - {fileID: 8696396156413950495}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6909908586306372454
@@ -107,6 +183,15 @@ MonoBehaviour:
   OnStartVisualization:
     m_PersistentCalls:
       m_Calls: []
+  OnLevelWon:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToggleMainMenu:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLevelLost:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1020706358672730142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelVisualizationHandler
   beginVisualizationScreenOverlayDuration: 1
+  playerTurnActionDuration: 0.4
+  enemyTickActionDuration: 0.3
 --- !u!114 &3721428973285476129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +282,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4632456400556872360}
+  m_Children:
+  - {fileID: 6525941321143507125}
+  m_Father: {fileID: 8696396156413950495}
   m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
 --- !u!20 &3357510357438607864
 Camera:

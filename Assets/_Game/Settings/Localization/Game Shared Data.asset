@@ -67,6 +67,18 @@ MonoBehaviour:
     m_Key: DefeatScreen.DefeatReason.SameTile
     m_Metadata:
       m_Items: []
+  - m_Id: 1038967874031616
+    m_Key: Btn.Understood
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044665718575104
+    m_Key: Rules.1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044724946341888
+    m_Key: Rules.2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

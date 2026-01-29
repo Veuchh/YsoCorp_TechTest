@@ -22,8 +22,9 @@ public class CameraManager : MonoBehaviour
         LevelHandler.Instance.OnGridGenerated.AddListener(OnGridGenerated);
     }
 
-    void OnGridGenerated()
+    async void  OnGridGenerated()
     {
+        await UniTask.NextFrame();
         SetCameraPosition(LevelHandler.Instance.OngoingLevelData.Tiles);
     }
 
@@ -31,7 +32,7 @@ public class CameraManager : MonoBehaviour
     {
         await UniTask.NextFrame();
         var (center, size) = CalculateOrthoSize(tiles);
-        cam.transform.position = center;
+        cam.transform.localPosition = center;
         cam.orthographicSize = size;
     }
 

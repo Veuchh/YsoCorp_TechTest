@@ -4,5 +4,6 @@ public enum CardEffectType
     MoveToClickedTile=1,
     AttackClickedTile=2,
     RotateTowardsClickedTile=3,
-    TriggerPlayerAnimation
+    TriggerPlayerAnimation = 4,
+    PlayAudio = 5
 }

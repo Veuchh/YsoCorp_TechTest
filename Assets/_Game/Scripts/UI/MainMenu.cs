@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] LevelButton levelButtonPrefab;
     [SerializeField] Transform levelButtonsParent;
 
-    int currentlyPlayedLevelIndex;
+    int currentlyPlayedLevelIndex = -1;
     int currentMaxLevelIndex = 0;
 
     private async void Awake()

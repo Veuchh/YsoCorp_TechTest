@@ -6,16 +6,25 @@ public class EnemyEntity : MonoBehaviour
 {
     const string ANIMATOR_DEATH_KEY = "isDead";
 
+    [SerializeField] AudioData deathAudio;
+
     [Header("Tween - Spawn")]
     [SerializeField] float spawnAnimDuration = .6f;
     [SerializeField] float spawnAnimOffset = 2f;
 
     [Header("Tween - Move")]
     [SerializeField] float moveAnimDuration = .35f;
+    [SerializeField] float baseRotation = 45;
 
     [Header("Tween - Reach end of Map")]
     [SerializeField] float endAnimDuration = .35f;
     [SerializeField] float endAnimOffset = 2f;
+
+    [Header("Tween - DeathRotation")]
+    [SerializeField] Transform deathRotationTarget;
+    [SerializeField] float deathRotationDuration = .3f;
+    [SerializeField] float deathRotation = 0;
+
 
     Sequence currentTween;
     Animator animator;
@@ -59,6 +68,7 @@ public class EnemyEntity : MonoBehaviour
         currentTween = DOTween.Sequence();
 
         currentTween.Append(transform.DOMove(targetPosition, moveAnimDuration));
+        currentTween.Join(deathRotationTarget.DORotate(new Vector3(baseRotation,0,0), deathRotationDuration));
 
         //if it is moving, then it is alove, so we can safely set this
         animator.SetBool(ANIMATOR_DEATH_KEY, false);
@@ -92,6 +102,13 @@ public class EnemyEntity : MonoBehaviour
 
         isAlive = false;
 
+        AudioManager.Instance.PlayAudioData(deathAudio);
+
         animator.SetBool(ANIMATOR_DEATH_KEY, true);
+
+        TryKillCurrentTween();
+
+        currentTween = DOTween.Sequence();
+        currentTween.Append(deathRotationTarget.DORotate(new Vector3(deathRotation, 0, 0), deathRotationDuration));
     }
 }

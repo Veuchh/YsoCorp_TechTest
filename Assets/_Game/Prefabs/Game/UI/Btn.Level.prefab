@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6251960059185739209}
   - component: {fileID: 7738845953142805809}
   - component: {fileID: 2693561183599924920}
+  - component: {fileID: -7689521452908663931}
   m_Layer: 5
   m_Name: Btn.Level
   m_TagString: Untagged
@@ -139,6 +140,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   levelLabel: {fileID: 7002854486439416893}
+--- !u!114 &-7689521452908663931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659172774987520640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bfa1f8010255d94bb7b40e4c359a289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayAudioOnButtonClicked
+  audioData: {fileID: 11400000, guid: a3bc168a7a7ee344783e5acba7940d79, type: 2}
 --- !u!1 &3709853116870058311
 GameObject:
   m_ObjectHideFlags: 0
