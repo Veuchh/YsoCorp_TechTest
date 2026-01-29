@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2b2d3c63fa665742a490a680c126a17, type: 3}
-  m_Name: CardData_Dash
+  m_Name: CardData_LongJump
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardImage: {fileID: 21300000, guid: 7b7bade5d2579da4f978a261557fab09, type: 3}
-  cardAttributes: 9
+  cardImage: {fileID: 21300000, guid: 4801b4f072621244a9f522df46dc38c7, type: 3}
+  cardAttributes: 1
   validTileCheckType: 1
-  circularRangeNoEnemy: {x: 1, y: 1}
+  circularRangeNoEnemy: {x: 2, y: 3}
   circularRange: {x: 1, y: 1}
   cardEffects:
   - effectType: 1

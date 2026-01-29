@@ -7,7 +7,6 @@ using UnityEngine.Localization;
 [CreateAssetMenu(fileName = "CardData", menuName = "Scriptable Objects/CardData")]
 public class CardData : ScriptableObject
 {
-    [SerializeField] LocalizedString cardName;
     [SerializeField] Sprite cardImage;
     [SerializeField] CardAttributes cardAttributes;
 
@@ -29,7 +28,6 @@ public class CardData : ScriptableObject
     [Header("Card Effects")]
     [SerializeField] List<CardEffect> cardEffects;
 
-    public LocalizedString CardName => cardName;
     public Sprite CardImage => cardImage;
     public CardAttributes CardAttributes => cardAttributes;
     public List<CardEffect> CardEffects => cardEffects;

@@ -39,6 +39,34 @@ MonoBehaviour:
     m_Key: Visualization.Yeah
     m_Metadata:
       m_Items: []
+  - m_Id: 970230953185280
+    m_Key: VictoryScreen.Victory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970492904247296
+    m_Key: Btn.ReturnToMainMenu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970757703241728
+    m_Key: DefeatScreen.Defeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971193696948224
+    m_Key: Btn.Retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971256980606976
+    m_Key: DefeatScreen.DefeatReason.EnemyReachedBottom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971367353716736
+    m_Key: DefeatScreen.DefeatReason.Enemyremaining
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971470156107776
+    m_Key: DefeatScreen.DefeatReason.SameTile
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
