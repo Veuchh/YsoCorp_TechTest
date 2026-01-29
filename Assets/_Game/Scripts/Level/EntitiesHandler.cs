@@ -30,6 +30,7 @@ public class EntitiesHandler : MonoBehaviour
         LevelHandler.Instance.OnGridGenerated.AddListener(OnGridGenerated);
         LevelHandler.Instance.OnCardUndone.AddListener(OnUndo);
         LevelHandler.Instance.OnEnemyTick.AddListener(Tick);
+        LevelHandler.Instance.OnStartVisualization.AddListener(BakeEnemyStateIntoLastLevelState);
     }
 
     private void OnDestroy()
@@ -38,9 +39,22 @@ public class EntitiesHandler : MonoBehaviour
         LevelHandler.Instance?.OnGridGenerated.RemoveListener(OnGridGenerated);
         LevelHandler.Instance?.OnCardUndone.RemoveListener(OnUndo);
         LevelHandler.Instance?.OnEnemyTick.RemoveListener(Tick);
+        LevelHandler.Instance?.OnStartVisualization.RemoveListener(BakeEnemyStateIntoLastLevelState);
     }
 
     private async void Tick()
+    {
+        BakeEnemyStateIntoLastLevelState();
+
+        await UniTask.Delay(Mathf.RoundToInt(preTickDelay * 1000));
+
+        foreach (EnemyEntity enemy in ongGoingLevelDataReference.EnemiesInLevel)
+        {
+            TryAdvanceEnemy(enemy);
+        }
+    }
+
+    private void BakeEnemyStateIntoLastLevelState()
     {
         List<EnemyState> currentEnemmiesState = new List<EnemyState>();
 
@@ -54,14 +68,7 @@ public class EntitiesHandler : MonoBehaviour
                     enemy.IsAlive));
         }
 
-        ongGoingLevelDataReference.PlayedCards.Last().SetEnemiesState(currentEnemmiesState);
-
-        await UniTask.Delay(Mathf.RoundToInt(preTickDelay * 1000));
-
-        foreach (EnemyEntity enemy in ongGoingLevelDataReference.EnemiesInLevel)
-        {
-            TryAdvanceEnemy(enemy);
-        }
+        ongGoingLevelDataReference.LevelStates.Last().SetEnemiesState(currentEnemmiesState);
     }
 
     private void TryAdvanceEnemy(EnemyEntity enemy)

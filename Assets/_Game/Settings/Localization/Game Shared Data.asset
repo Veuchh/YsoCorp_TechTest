@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: Card.Slash.Name
     m_Metadata:
       m_Items: []
+  - m_Id: 943354608128000
+    m_Key: Visualization.Yeah
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

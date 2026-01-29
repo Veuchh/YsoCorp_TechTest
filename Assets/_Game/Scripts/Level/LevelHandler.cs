@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,12 +14,24 @@ public class LevelHandler : MonoBehaviour
 
     public UnityEvent OnNewCardSelected;
 
+    [HideInInspector]
     public UnityEvent<LevelData, CardDrawAndSelectService> OnLevelStarted;
+    [HideInInspector]
     public UnityEvent OnGridGenerated;
+    [HideInInspector]
     public UnityEvent OnNewPlayedCardList;
+    [HideInInspector]
     public UnityEvent OnEnemyTick;
+    [HideInInspector]
     public UnityEvent<LevelStateOnAction> OnCardUndone;
+    [HideInInspector]
     public UnityEvent<Tile> OnTileClicked;
+    [HideInInspector]
+    public UnityEvent OnStartVisualization;
+    [HideInInspector]
+    public UnityEvent OnLevelWon;
+    [HideInInspector]
+    public UnityEvent<DefeatReason, EnemyEntity> OnLevelLost;
 
     public OngoingLevelData OngoingLevelData => ongoingLevelData;
 
@@ -78,18 +91,24 @@ public class LevelHandler : MonoBehaviour
 
     public void PlayCardOnTile(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
     {
+        BakeLevelState(currentlySelectedCard, clickedTileCoord);
+
+        cardDrawSelectionService.PlaySelectedCard();
+
+        OnNewPlayedCardList?.Invoke();
+        OnEnemyTick?.Invoke();
+    }
+
+    private void BakeLevelState(CardData currentlySelectedCard, Vector2Int clickedTileCoord)
+    {
         //Add card to list for undos and final visualization
-        LevelStateOnAction playedCard = new LevelStateOnAction(
+        LevelStateOnAction currentLevelState = new LevelStateOnAction(
             cardData: currentlySelectedCard,
             playerPosOnStartPlayCard: ongoingLevelData.CurrentPlayerPreviewPosition,
             clickedTileCoord: clickedTileCoord,
             originDispenser: cardDrawSelectionService.SelectedDispenser);
 
-        ongoingLevelData.AddPlayedCard(playedCard);
-        cardDrawSelectionService.PlaySelectedCard();
-
-        OnNewPlayedCardList?.Invoke();
-        OnEnemyTick?.Invoke();
+        ongoingLevelData.AddNewLevelState(currentLevelState);
     }
 
     public void TryUndo()
@@ -103,5 +122,23 @@ public class LevelHandler : MonoBehaviour
 
         OnNewPlayedCardList?.Invoke();
         cardDrawSelectionService.Undo(undoneCard);
+    }
+
+    public void TryPlaySequence()
+    {
+        //Bake final state
+        BakeLevelState(null, new Vector2Int(0, 0));
+
+        OnStartVisualization?.Invoke();
+    }
+
+    public void LoseLevel(DefeatReason defeatReason, EnemyEntity enemyCausingLoss)
+    {
+        OnLevelLost?.Invoke(defeatReason, enemyCausingLoss);
+    }
+
+    public void WinLevel()
+    {
+        OnLevelWon?.Invoke();
     }
 }

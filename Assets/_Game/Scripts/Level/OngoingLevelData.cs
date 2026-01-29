@@ -12,7 +12,7 @@ public class OngoingLevelData
     public Tile CurrentlyHoveredTile;
     public bool IsHighlightDirty = false;
     public Player Player;
-    public List<LevelStateOnAction> PlayedCards;
+    public List<LevelStateOnAction> LevelStates;
     public List<EnemyEntity> EnemiesInLevel;
 
     public OngoingLevelData(LevelData levelData, Tile[,] tiles, Vector2Int playerPosition)
@@ -20,7 +20,7 @@ public class OngoingLevelData
         Tiles = tiles;
         CurrentPlayerPreviewPosition = playerPosition;
         LevelData = levelData;
-        PlayedCards = new List<LevelStateOnAction>();
+        LevelStates = new List<LevelStateOnAction>();
         EnemiesInLevel = new List<EnemyEntity>();
     }
 
@@ -52,18 +52,18 @@ public class OngoingLevelData
         return new Vector2Int(-1, -1);
     }
 
-    public void AddPlayedCard(LevelStateOnAction playedCard)
+    public void AddNewLevelState(LevelStateOnAction playedCard)
     {
-        PlayedCards.Add(playedCard);
+        LevelStates.Add(playedCard);
     }
 
     public LevelStateOnAction TryGetAndRemoveUndoCard()
     {
-        if (PlayedCards.Count == 0)
+        if (LevelStates.Count == 0)
             return null;
 
-        LevelStateOnAction removedCard = PlayedCards.Last();
-        PlayedCards.RemoveAt(PlayedCards.Count - 1);
+        LevelStateOnAction removedCard = LevelStates.Last();
+        LevelStates.RemoveAt(LevelStates.Count - 1);
 
         return removedCard;
     }

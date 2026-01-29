@@ -23,7 +23,7 @@ MonoBehaviour:
     m_LocalVariables: []
   cardImage: {fileID: 21300000, guid: f03f78816ea74cf49927f9022db4a5dd, type: 3}
   cardAttributes: 4
-  validTileCheckType: 1
+  validTileCheckType: 2
   circularRangeNoEnemy: {x: 0, y: 0}
   circularRange: {x: 0, y: 0}
   cardEffects: []

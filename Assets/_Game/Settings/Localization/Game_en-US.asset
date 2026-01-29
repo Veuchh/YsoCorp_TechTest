@@ -38,6 +38,12 @@ MonoBehaviour:
     m_Localized: Slash
     m_Metadata:
       m_Items: []
+  - m_Id: 943354608128000
+    m_Localized: 'Yeah...
+
+      That should work...'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
