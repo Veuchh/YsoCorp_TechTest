@@ -31,6 +31,8 @@ public class LevelHandler : MonoBehaviour
     [HideInInspector]
     public UnityEvent OnLevelWon;
     [HideInInspector]
+    public UnityEvent<bool> OnToggleMainMenu;
+    [HideInInspector]
     public UnityEvent<DefeatReason, EnemyEntity> OnLevelLost;
 
     public OngoingLevelData OngoingLevelData => ongoingLevelData;
@@ -55,6 +57,8 @@ public class LevelHandler : MonoBehaviour
 
     public async void StartLevel(LevelData data)
     {
+        OnToggleMainMenu?.Invoke(false);
+
         //Delaying a few frames to make sure everything is properly initialized
         await UniTask.DelayFrame(3);
 
@@ -140,5 +144,15 @@ public class LevelHandler : MonoBehaviour
     public void WinLevel()
     {
         OnLevelWon?.Invoke();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        OnToggleMainMenu?.Invoke(true);
+    }
+
+    public void RestartLevel()
+    {
+        StartLevel(ongoingLevelData.LevelData);
     }
 }

@@ -139,7 +139,8 @@ public class LevelVisualizationHandler : MonoBehaviour
                 return DefeatReason.EnemyReachedBottom;
             }
 
-            if (levelState.PlayerPosOnStartPlayCard == enemyState.CoordBeforePlayedCard)
+            if (enemyState.IsAlive &&
+                levelState.PlayerPosOnStartPlayCard == enemyState.CoordBeforePlayedCard)
             {
                 LevelHandler.Instance.LoseLevel(DefeatReason.SameTileAsEnemy, enemyState.EnemyReference);
                 return DefeatReason.SameTileAsEnemy;

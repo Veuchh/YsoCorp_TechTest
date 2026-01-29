@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3885a0df30d66fb48b72068b4b9a2a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEntity
+  spawnAnimDuration: 2.5
+  spawnAnimOffset: 2
+  moveAnimDuration: 0.35
+  endAnimDuration: 0.35
+  endAnimOffset: 2
 --- !u!1 &4700381181256993531
 GameObject:
   m_ObjectHideFlags: 0

@@ -76,7 +76,9 @@ MonoBehaviour:
   cardSelectTweenDuration: 0.2
   cardSelectTweenYOffset: 100
   cardSelectScaleMultiplier: 1.5
+  canvasSortingOrderOnSelect: 11
   cardDeselectTweenDuration: 0.2
+  canvasSortingOrderOnDeselect: 10
   cardPlayedTweenDuration: 0.1
 --- !u!225 &7056137284736210021
 CanvasGroup:
@@ -188,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

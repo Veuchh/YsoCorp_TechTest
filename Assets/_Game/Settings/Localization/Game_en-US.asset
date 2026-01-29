@@ -44,6 +44,34 @@ MonoBehaviour:
       That should work...'
     m_Metadata:
       m_Items: []
+  - m_Id: 970230953185280
+    m_Localized: VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970492904247296
+    m_Localized: Return to Main Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970757703241728
+    m_Localized: DEFEAT...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971193696948224
+    m_Localized: Retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971256980606976
+    m_Localized: You let a zombie reach the bottom.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971367353716736
+    m_Localized: A zombie was still alive.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971470156107776
+    m_Localized: You were on the same position as a zombie.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

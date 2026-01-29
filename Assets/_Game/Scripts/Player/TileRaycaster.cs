@@ -22,6 +22,9 @@ public class TileRaycaster : MonoBehaviour
 
     void HoverRaycast()
     {
+        if (LevelHandler.Instance == null || LevelHandler.Instance.OngoingLevelData == null)
+            return;
+
         Tile bufferTile = LevelHandler.Instance.OngoingLevelData.CurrentlyHoveredTile;
         if (Physics.Raycast(mainCam.ScreenPointToRay(lastTouchScreenPos), out RaycastHit hit)
             && hit.collider.GetComponent<Tile>() is Tile hitTile)
