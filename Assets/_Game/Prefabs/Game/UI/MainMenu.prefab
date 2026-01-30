@@ -602,7 +602,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!114 &1885276173133067085
 MonoBehaviour:
@@ -680,6 +680,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13167ca61d3019f45821b4b1905849bb, type: 2}
   - {fileID: 11400000, guid: 77a2118964b15234c9536ac9842270df, type: 2}
   - {fileID: 11400000, guid: 80a4448a126805d47a01633020817cb4, type: 2}
+  - {fileID: 11400000, guid: fb3652b73a1874f43a66c67f40ad9fb2, type: 2}
+  - {fileID: 11400000, guid: f478f7e7816945649a1d4e8240bbf6eb, type: 2}
+  - {fileID: 11400000, guid: fd68777229acfe441b7a8ed7b16596ce, type: 2}
+  - {fileID: 11400000, guid: cb3ed4282b72de5459c76a65ab93cf4d, type: 2}
+  - {fileID: 11400000, guid: 13ad3526b21aa41429b3fa9db6a3a3fc, type: 2}
   levelButtons: []
   levelButtonPrefab: {fileID: 2693561183599924920, guid: ef342f18518d73f42a73ca9d7e9e3b52, type: 3}
   levelButtonsParent: {fileID: 2921745168957114307}

@@ -105,7 +105,8 @@ public class LevelVisualizationHandler : MonoBehaviour
         {
             if (!enemyState.IsAlive)
             {
-                enemyState.EnemyReference.TryKill();
+                if (enemyState.EnemyReference.TryKill())
+                    CameraManager.Instance.ZoomOnTile(LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(enemyState.CoordBeforePlayedCard));
             }
         }
 
@@ -142,6 +143,12 @@ public class LevelVisualizationHandler : MonoBehaviour
         {
             if (enemyState.HasEnemyReachedEndOfMap)
             {
+                Vector2Int clampedCoord = enemyState.CoordBeforePlayedCard;
+                clampedCoord.y = Mathf.Max(0, clampedCoord.y);
+                CameraManager.Instance.ZoomOnTile(
+                    tile: LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(clampedCoord),
+                    zoomOut: false);
+
                 LevelHandler.Instance.LoseLevel(DefeatReason.EnemyReachedBottom, enemyState.EnemyReference);
                 return DefeatReason.EnemyReachedBottom;
             }
@@ -149,6 +156,9 @@ public class LevelVisualizationHandler : MonoBehaviour
             if (enemyState.IsAlive &&
                 levelState.PlayerPosOnStartPlayCard == enemyState.CoordBeforePlayedCard)
             {
+                CameraManager.Instance.ZoomOnTile(
+                    tile: LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(enemyState.CoordBeforePlayedCard),
+                    zoomOut: false);
                 LevelHandler.Instance.LoseLevel(DefeatReason.SameTileAsEnemy, enemyState.EnemyReference);
                 return DefeatReason.SameTileAsEnemy;
             }
@@ -163,6 +173,9 @@ public class LevelVisualizationHandler : MonoBehaviour
         {
             if (enemyState.IsAlive)
             {
+                CameraManager.Instance.ZoomOnTile(
+                    tile : LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(enemyState.CoordBeforePlayedCard),
+                    zoomOut: false);
                 LevelHandler.Instance.LoseLevel(DefeatReason.EnemyAliveAfterVisualization, enemyState.EnemyReference);
                 return;
             }

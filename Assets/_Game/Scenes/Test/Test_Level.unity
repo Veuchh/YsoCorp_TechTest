@@ -392,6 +392,10 @@ PrefabInstance:
       propertyPath: levelHandler
       value: 
       objectReference: {fileID: 207147542}
+    - target: {fileID: 7935717847841493078, guid: a642a5ba5acd63a40a4887a34cf19148, type: 3}
+      propertyPath: stubLevelData
+      value: 
+      objectReference: {fileID: 11400000, guid: cb3ed4282b72de5459c76a65ab93cf4d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

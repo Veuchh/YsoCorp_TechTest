@@ -95,10 +95,10 @@ public class EnemyEntity : MonoBehaviour
         }
     }
 
-    public void TryKill()
+    public bool TryKill()
     {
         if (!isAlive)
-            return;
+            return false;
 
         isAlive = false;
 
@@ -110,5 +110,6 @@ public class EnemyEntity : MonoBehaviour
 
         currentTween = DOTween.Sequence();
         currentTween.Append(deathRotationTarget.DORotate(new Vector3(deathRotation, 0, 0), deathRotationDuration));
+        return true;
     }
 }

@@ -16,5 +16,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b56decefd48f5b8419d4034f0abe3168, type: 3}
   - {fileID: 8300000, guid: a7e72ad45e3a89247b6f036b292a5011, type: 3}
   - {fileID: 8300000, guid: 5ce94934c8a9475429e91d0b90daa6cf, type: 3}
-  randomPitchMinMax: {x: 0.7, y: 0.8}
+  randomPitchMinMax: {x: 0.9, y: 1.1}
   randomVolumeMinMax: {x: 0.7, y: 0.75}
