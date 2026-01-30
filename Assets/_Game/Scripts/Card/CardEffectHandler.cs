@@ -63,6 +63,9 @@ public class CardEffectHandler : MonoBehaviour
                 case CardEffectType.TriggerPlayerAnimation:
                     LevelHandler.Instance.OngoingLevelData.Player.TriggerAnimation(cardEffect.AnimationID);
                     break;
+                case CardEffectType.PlayAudio:
+                    AudioManager.Instance.PlayAudioData(cardEffect.AudioDataToPlay);
+                    break;
             }
         }
 
@@ -87,5 +90,9 @@ public class CardEffectHandler : MonoBehaviour
                 enemy.TryKill();
             }
         }
+
+        Tile attackedTile = LevelHandler.Instance.OngoingLevelData.GetTileFromGridCoord(attackedCoord);
+
+        attackedTile.PlayAttackPS();
     }
 }

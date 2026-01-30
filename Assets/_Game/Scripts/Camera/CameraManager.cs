@@ -1,47 +1,138 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance;
+
+    [Header("Padding (Camera Space Units)")]
     [SerializeField] float paddingLeft;
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBottom;
 
+    [Header("Zoom")]
+    [SerializeField] float zoomPaddingMultiplier = 3f;
+    [SerializeField] float zoomDuration = .5f;
+    [SerializeField] float zoomLingerDuration = .1f;
+
+    [Header("Camera")]
+    [SerializeField] float cameraDistance = 10f;
+
+    Vector3 neutralPos;
+    float neutralSize;
+
     Camera cam;
+    Sequence currentTween;
 
     private async void Awake()
     {
-        cam = GetComponent<Camera>(); 
-        
-        while (LevelHandler.Instance == null)
+        if (Instance != null)
         {
-            await UniTask.NextFrame();
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        cam = GetComponent<Camera>();
+
+        while (LevelHandler.Instance == null)
+            await UniTask.NextFrame();
 
         LevelHandler.Instance.OnGridGenerated.AddListener(OnGridGenerated);
     }
 
-    void OnGridGenerated()
+    async void OnGridGenerated()
     {
+        await UniTask.NextFrame();
         SetCameraPosition(LevelHandler.Instance.OngoingLevelData.Tiles);
     }
 
-    public async void SetCameraPosition(Tile[,] tiles)
+    async void SetCameraPosition(Tile[,] tiles)
     {
         await UniTask.NextFrame();
-        var (center, size) = CalculateOrthoSize(tiles);
-        cam.transform.position = center;
+
+        List<Tile> tilesList = new List<Tile>();
+        foreach (var tile in tiles)
+            tilesList.Add(tile);
+
+        var (center, size) = CalculateOrthoSize(tilesList);
+
+        neutralPos = center;
+        neutralSize = size;
+
+        cam.transform.localPosition = center;
         cam.orthographicSize = size;
     }
 
-    private (Vector3 center, float size) CalculateOrthoSize(Tile[,] tiles)
+    public void ZoomOnTile(Tile tile, bool zoomOut = true)
+    {
+        TryKillSequence();
+
+        currentTween = DOTween.Sequence();
+
+        var (zoomCenter, zoomSize) = CalculateOrthoSize(
+            new List<Tile> { tile },
+            zoomPaddingMultiplier);
+
+        // Zoom in
+        currentTween.Append(
+            cam.transform.DOLocalMove(zoomCenter, zoomDuration * 0.5f)
+                .SetEase(Ease.InQuad));
+
+        currentTween.Join(
+            DOTween.To(
+                () => cam.orthographicSize,
+                x => cam.orthographicSize = x,
+                zoomSize,
+                zoomDuration * 0.5f)
+                .SetEase(Ease.InQuad));
+
+        if (zoomOut)
+        {
+            currentTween.AppendInterval(zoomLingerDuration);
+
+            // Zoom out
+            currentTween.Append(
+                cam.transform.DOLocalMove(neutralPos, zoomDuration * 0.5f)
+                    .SetEase(Ease.OutQuad));
+
+            currentTween.Join(
+                DOTween.To(
+                    () => cam.orthographicSize,
+                    x => cam.orthographicSize = x,
+                    neutralSize,
+                    zoomDuration * 0.5f)
+                    .SetEase(Ease.OutQuad));
+        }
+    }
+
+    void TryKillSequence()
+    {
+        if (currentTween != null)
+            currentTween.Kill();
+    }
+
+    private (Vector3 center, float size) CalculateOrthoSize(
+        List<Tile> tiles,
+        float paddingMultiplier = 1f)
     {
         Bounds bounds = new Bounds();
+        bool initialized = false;
 
         foreach (var tile in tiles)
         {
-            bounds.Encapsulate(tile.GetCollider().bounds);
+            if (!initialized)
+            {
+                bounds = tile.GetCollider().bounds;
+                initialized = true;
+            }
+            else
+            {
+                bounds.Encapsulate(tile.GetCollider().bounds);
+            }
         }
 
         float minX = float.PositiveInfinity;
@@ -59,11 +150,11 @@ public class CameraManager : MonoBehaviour
             maxY = Mathf.Max(maxY, local.y);
         }
 
-        // Asymmetric padding (camera space)
-        minX -= paddingLeft;
-        maxX += paddingRight;
-        minY -= paddingBottom;
-        maxY += paddingTop;
+        // Apply asymmetric padding (camera space)
+        minX -= paddingLeft * paddingMultiplier;
+        maxX += paddingRight * paddingMultiplier;
+        minY -= paddingBottom * paddingMultiplier;
+        maxY += paddingTop * paddingMultiplier;
 
         float width = maxX - minX;
         float height = maxY - minY;
@@ -73,20 +164,30 @@ public class CameraManager : MonoBehaviour
             width * 0.5f * cam.pixelHeight / cam.pixelWidth
         );
 
-        // Center shift caused by asymmetric padding
-        float centerX = (minX + maxX) * 0.5f;
-        float centerY = (minY + maxY) * 0.5f;
+        float centerX, centerY;
 
-        Vector3 localCenter = new Vector3(centerX, centerY, 0f);
-        Vector3 worldCenter = cam.transform.TransformPoint(localCenter);
+        // 🔑 SOLUTION 1:
+        // Override center when focusing on a single tile
+        if (tiles.Count == 1)
+        {
+            Vector3 localCenter = cam.transform.InverseTransformPoint(bounds.center);
+            centerX = localCenter.x;
+            centerY = localCenter.y;
+        }
+        else
+        {
+            centerX = (minX + maxX) * 0.5f;
+            centerY = (minY + maxY) * 0.5f;
+        }
+
+        Vector3 localFinalCenter = new Vector3(centerX, centerY, 0f);
+        Vector3 worldCenter = cam.transform.TransformPoint(localFinalCenter);
 
         Vector3 finalCenter =
-            worldCenter - cam.transform.forward * 10f;
+            worldCenter - cam.transform.forward * cameraDistance;
 
         return (finalCenter, size);
     }
-
-
 
     Vector3[] GetBoundsCorners(Bounds b)
     {
@@ -95,15 +196,14 @@ public class CameraManager : MonoBehaviour
 
         return new Vector3[]
         {
-        c + new Vector3( e.x,  e.y,  e.z),
-        c + new Vector3( e.x,  e.y, -e.z),
-        c + new Vector3( e.x, -e.y,  e.z),
-        c + new Vector3( e.x, -e.y, -e.z),
-        c + new Vector3(-e.x,  e.y,  e.z),
-        c + new Vector3(-e.x,  e.y, -e.z),
-        c + new Vector3(-e.x, -e.y,  e.z),
-        c + new Vector3(-e.x, -e.y, -e.z),
+            c + new Vector3( e.x,  e.y,  e.z),
+            c + new Vector3( e.x,  e.y, -e.z),
+            c + new Vector3( e.x, -e.y,  e.z),
+            c + new Vector3( e.x, -e.y, -e.z),
+            c + new Vector3(-e.x,  e.y,  e.z),
+            c + new Vector3(-e.x,  e.y, -e.z),
+            c + new Vector3(-e.x, -e.y,  e.z),
+            c + new Vector3(-e.x, -e.y, -e.z),
         };
     }
-
 }

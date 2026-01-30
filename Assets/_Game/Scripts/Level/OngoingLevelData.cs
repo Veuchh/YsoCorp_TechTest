@@ -52,6 +52,11 @@ public class OngoingLevelData
         return new Vector2Int(-1, -1);
     }
 
+    public Tile GetTileFromGridCoord(Vector2Int gridCoord)
+    {
+        return Tiles[gridCoord.x, gridCoord.y];
+    }
+
     public void AddNewLevelState(LevelStateOnAction playedCard)
     {
         LevelStates.Add(playedCard);

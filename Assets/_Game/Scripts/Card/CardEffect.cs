@@ -16,4 +16,12 @@ public class CardEffect
     PlayerAnimations animationID;
 
     public PlayerAnimations AnimationID => animationID;
+
+    [ShowIf(nameof(EffectType), CardEffectType.PlayAudio)]
+    [SerializeField]
+    [AllowNesting]
+    [Tooltip("The data of the played audio.")]
+    AudioData audioDataToPlay;
+
+    public AudioData AudioDataToPlay => audioDataToPlay;
 }

@@ -1,9 +1,13 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
     const string TEXTURE_ID = "_MainText";
+
+    [SerializeField] ParticleSystem attackPS;
+    [SerializeField] float attackEffectDuration = .25f;
 
     new Renderer renderer;
     MaterialPropertyBlock mpb;
@@ -15,6 +19,13 @@ public class Tile : MonoBehaviour
         renderer = GetComponentInChildren<Renderer>();
         mpb = new MaterialPropertyBlock();
         renderer.GetPropertyBlock(mpb);
+    }
+
+    public async void PlayAttackPS()
+    {
+        attackPS.Play();
+        await UniTask.Delay(Mathf.RoundToInt(attackEffectDuration * 1000));
+        attackPS.Stop(false, ParticleSystemStopBehavior.StopEmitting);
     }
 
     public Collider GetCollider()

@@ -13,14 +13,20 @@ MonoBehaviour:
   m_Name: CardData_FarSlash
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardImage: {fileID: 21300000, guid: a9bba4119321d5342bdaed324f436003, type: 3}
-  cardAttributes: 2
+  cardAttributes: 66
   validTileCheckType: 2
   circularRangeNoEnemy: {x: 1, y: 1}
   circularRange: {x: 2, y: 3}
   cardEffects:
   - effectType: 2
     animationID: 0
+    audioDataToPlay: {fileID: 0}
   - effectType: 3
     animationID: 0
+    audioDataToPlay: {fileID: 0}
   - effectType: 4
     animationID: 1
+    audioDataToPlay: {fileID: 0}
+  - effectType: 5
+    animationID: 1
+    audioDataToPlay: {fileID: 11400000, guid: 45e1b936e20663346bdcf90a5dcf4a3f, type: 2}

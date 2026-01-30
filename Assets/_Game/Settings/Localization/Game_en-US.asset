@@ -72,6 +72,18 @@ MonoBehaviour:
     m_Localized: You were on the same position as a zombie.
     m_Metadata:
       m_Items: []
+  - m_Id: 1038967874031616
+    m_Localized: Understood
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044665718575104
+    m_Localized: 1/ Plan your actions by clicking on cards and tiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1044724946341888
+    m_Localized: 2/ Execute your plan
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

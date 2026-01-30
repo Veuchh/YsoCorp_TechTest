@@ -20,4 +20,10 @@ public class GameInputHandler : MonoBehaviour
     {
         tileRaycaster.UpdateTouchScreenPosition(value.Get<Vector2>());
     }
+
+    public void OnReturnToMainMenu(InputValue value)
+    {
+        LevelHandler.Instance.ReturnToMainMenu();
+    }
+
 }

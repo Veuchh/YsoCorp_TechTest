@@ -45,11 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3885a0df30d66fb48b72068b4b9a2a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEntity
+  deathAudio: {fileID: 11400000, guid: 159cb11994287e545b53e7174717ea61, type: 2}
   spawnAnimDuration: 2.5
   spawnAnimOffset: 2
   moveAnimDuration: 0.35
+  baseRotation: 45
   endAnimDuration: 0.35
   endAnimOffset: 2
+  deathRotationTarget: {fileID: 966195276250599269}
+  deathRotationDuration: 0.3
+  deathRotation: 0
 --- !u!1 &4700381181256993531
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58b9f5e787eaf8a42ac4d58f56b4c3a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.607
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58b9f5e787eaf8a42ac4d58f56b4c3a1, type: 3}
       propertyPath: m_LocalRotation.w
